@@ -1,0 +1,9 @@
+{
+	"name": "df107",
+	"location": "northeurope",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "01de1901-d298-4f1b-8acd-3e3866ec1e78",
+		"tenantId": "e87cc00a-2598-445a-a037-c1c2c4a15822"
+	}
+}
