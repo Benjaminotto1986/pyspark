@@ -1,0 +1,12 @@
+{
+	"name": "Adventureworks108",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureSqlDatabase",
+		"typeProperties": {
+			"connectionString": "integrated security=False;encrypt=True;connection timeout=30;data source=benserver108.database.windows.net;initial catalog=AdventureWorks108;user id=ad",
+			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkRBVEFGQUNUT1JZQENFRDI5OTVGLUQ5QkItNDFGQy04OUYyLUJCMjIyNTYzRjJFQ18wZmFhN2Q0NS1kZjNiLTQ4NDktYjE0Yy1hMGE4ZTBjODg5OTciDQp9"
+		}
+	}
+}
