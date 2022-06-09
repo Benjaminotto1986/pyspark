@@ -17,7 +17,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
-						"sqlReaderQuery": "select table_name as table_name from INFORMATION_SCHEMA.tables \nwhere table_name like 'Customer'\n",
+						"sqlReaderQuery": "select table_name as tables from INFORMATION_SCHEMA.tables \nwhere table_name like 'Customer'\n",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
