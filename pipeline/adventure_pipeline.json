@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Get table",
+				"name": "get customer",
 				"type": "Lookup",
 				"dependsOn": [],
 				"policy": {
@@ -17,7 +17,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
-						"sqlReaderQuery": "select quotename(table_schema),\nquotename(table_name) from INFORMATION_SCHEMA.tables \nwhere table_name like 'water%'",
+						"sqlReaderQuery": "select quotename(table_schema),\nquotename(table_name)\n from INFORMATION_SCHEMA.tables \nwhere table_name like 'Customer'",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
@@ -25,52 +25,6 @@
 						"referenceName": "watermark",
 						"type": "DatasetReference"
 					}
-				}
-			},
-			{
-				"name": "ForEach table",
-				"type": "ForEach",
-				"dependsOn": [
-					{
-						"activity": "Get table",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"userProperties": [],
-				"typeProperties": {
-					"items": {
-						"value": "@activity('Get table').output.value",
-						"type": "Expression"
-					},
-					"activities": [
-						{
-							"name": "Lookup old watermark",
-							"type": "Lookup",
-							"dependsOn": [],
-							"policy": {
-								"timeout": "7.00:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"source": {
-									"type": "AzureSqlSource",
-									"sqlReaderQuery": "select * from watermarktable2 where  table_name = '@item().table_name'\n",
-									"queryTimeout": "02:00:00",
-									"partitionOption": "None"
-								},
-								"dataset": {
-									"referenceName": "watermark",
-									"type": "DatasetReference"
-								}
-							}
-						}
-					]
 				}
 			}
 		],
