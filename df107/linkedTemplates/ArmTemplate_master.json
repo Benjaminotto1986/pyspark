@@ -7,29 +7,25 @@
 			"metadata": "Data Factory-Name",
 			"defaultValue": "df107"
 		},
-		"trainingdatalakehouse108_accountKey": {
+		"Adventureworks108_connectionString": {
 			"type": "secureString",
-			"metadata": "Sichere Zeichenfolge für \"accountKey\" von \"trainingdatalakehouse108\""
-		},
-		"salesdb_connectionString": {
-			"type": "secureString",
-			"metadata": "Sichere Zeichenfolge für \"connectionString\" von \"salesdb\""
-		},
-		"websitetrackinglogs_connectionString": {
-			"type": "secureString",
-			"metadata": "Sichere Zeichenfolge für \"connectionString\" von \"websitetrackinglogs\""
+			"metadata": "Sichere Zeichenfolge für \"connectionString\" von \"Adventureworks108\""
 		},
 		"AzureAdventureWorks_connectionString": {
 			"type": "secureString",
 			"metadata": "Sichere Zeichenfolge für \"connectionString\" von \"AzureAdventureWorks\""
 		},
-		"Adventureworks108_connectionString": {
+		"salesdb_connectionString": {
 			"type": "secureString",
-			"metadata": "Sichere Zeichenfolge für \"connectionString\" von \"Adventureworks108\""
+			"metadata": "Sichere Zeichenfolge für \"connectionString\" von \"salesdb\""
 		},
-		"trainingdatalakehouse108_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://traininglakehouse108.dfs.core.windows.net"
+		"trainingdatalakehouse108_accountKey": {
+			"type": "secureString",
+			"metadata": "Sichere Zeichenfolge für \"accountKey\" von \"trainingdatalakehouse108\""
+		},
+		"websitetrackinglogs_connectionString": {
+			"type": "secureString",
+			"metadata": "Sichere Zeichenfolge für \"connectionString\" von \"websitetrackinglogs\""
 		},
 		"httpSource_properties_typeProperties_url": {
 			"type": "string",
@@ -38,6 +34,10 @@
 		"restsource_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://free.currconv.com/api/v7/convert? "
+		},
+		"trainingdatalakehouse108_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://traininglakehouse108.dfs.core.windows.net"
 		},
 		"containerUri": {
 			"type": "string",
@@ -66,29 +66,29 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
-					"trainingdatalakehouse108_accountKey": {
-						"value": "[parameters('trainingdatalakehouse108_accountKey')]"
-					},
-					"salesdb_connectionString": {
-						"value": "[parameters('salesdb_connectionString')]"
-					},
-					"websitetrackinglogs_connectionString": {
-						"value": "[parameters('websitetrackinglogs_connectionString')]"
+					"Adventureworks108_connectionString": {
+						"value": "[parameters('Adventureworks108_connectionString')]"
 					},
 					"AzureAdventureWorks_connectionString": {
 						"value": "[parameters('AzureAdventureWorks_connectionString')]"
 					},
-					"Adventureworks108_connectionString": {
-						"value": "[parameters('Adventureworks108_connectionString')]"
+					"salesdb_connectionString": {
+						"value": "[parameters('salesdb_connectionString')]"
 					},
-					"trainingdatalakehouse108_properties_typeProperties_url": {
-						"value": "[parameters('trainingdatalakehouse108_properties_typeProperties_url')]"
+					"trainingdatalakehouse108_accountKey": {
+						"value": "[parameters('trainingdatalakehouse108_accountKey')]"
+					},
+					"websitetrackinglogs_connectionString": {
+						"value": "[parameters('websitetrackinglogs_connectionString')]"
 					},
 					"httpSource_properties_typeProperties_url": {
 						"value": "[parameters('httpSource_properties_typeProperties_url')]"
 					},
 					"restsource_properties_typeProperties_url": {
 						"value": "[parameters('restsource_properties_typeProperties_url')]"
+					},
+					"trainingdatalakehouse108_properties_typeProperties_url": {
+						"value": "[parameters('trainingdatalakehouse108_properties_typeProperties_url')]"
 					}
 				}
 			},

@@ -7,29 +7,25 @@
 			"metadata": "Data Factory-Name",
 			"defaultValue": "df107"
 		},
-		"trainingdatalakehouse108_accountKey": {
+		"Adventureworks108_connectionString": {
 			"type": "secureString",
-			"metadata": "Sichere Zeichenfolge für \"accountKey\" von \"trainingdatalakehouse108\""
-		},
-		"salesdb_connectionString": {
-			"type": "secureString",
-			"metadata": "Sichere Zeichenfolge für \"connectionString\" von \"salesdb\""
-		},
-		"websitetrackinglogs_connectionString": {
-			"type": "secureString",
-			"metadata": "Sichere Zeichenfolge für \"connectionString\" von \"websitetrackinglogs\""
+			"metadata": "Sichere Zeichenfolge für \"connectionString\" von \"Adventureworks108\""
 		},
 		"AzureAdventureWorks_connectionString": {
 			"type": "secureString",
 			"metadata": "Sichere Zeichenfolge für \"connectionString\" von \"AzureAdventureWorks\""
 		},
-		"Adventureworks108_connectionString": {
+		"salesdb_connectionString": {
 			"type": "secureString",
-			"metadata": "Sichere Zeichenfolge für \"connectionString\" von \"Adventureworks108\""
+			"metadata": "Sichere Zeichenfolge für \"connectionString\" von \"salesdb\""
 		},
-		"trainingdatalakehouse108_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://traininglakehouse108.dfs.core.windows.net"
+		"trainingdatalakehouse108_accountKey": {
+			"type": "secureString",
+			"metadata": "Sichere Zeichenfolge für \"accountKey\" von \"trainingdatalakehouse108\""
+		},
+		"websitetrackinglogs_connectionString": {
+			"type": "secureString",
+			"metadata": "Sichere Zeichenfolge für \"connectionString\" von \"websitetrackinglogs\""
 		},
 		"httpSource_properties_typeProperties_url": {
 			"type": "string",
@@ -38,6 +34,10 @@
 		"restsource_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://free.currconv.com/api/v7/convert? "
+		},
+		"trainingdatalakehouse108_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://traininglakehouse108.dfs.core.windows.net"
 		}
 	},
 	"variables": {
@@ -45,31 +45,27 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/trainingdatalakehouse108')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureBlobFS",
-				"typeProperties": {
-					"url": "[parameters('trainingdatalakehouse108_properties_typeProperties_url')]",
-					"accountKey": {
-						"type": "SecureString",
-						"value": "[parameters('trainingdatalakehouse108_accountKey')]"
-					}
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/salesdb')]",
+			"name": "[concat(parameters('factoryName'), '/Adventureworks108')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"annotations": [],
 				"type": "AzureSqlDatabase",
 				"typeProperties": {
-					"connectionString": "[parameters('salesdb_connectionString')]"
+					"connectionString": "[parameters('Adventureworks108_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureAdventureWorks')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": "[parameters('AzureAdventureWorks_connectionString')]"
 				}
 			},
 			"dependsOn": []
@@ -105,6 +101,36 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/salesdb')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": "[parameters('salesdb_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/trainingdatalakehouse108')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"url": "[parameters('trainingdatalakehouse108_properties_typeProperties_url')]",
+					"accountKey": {
+						"type": "SecureString",
+						"value": "[parameters('trainingdatalakehouse108_accountKey')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/websitetrackinglogs')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -118,30 +144,78 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/AzureAdventureWorks')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"name": "[concat(parameters('factoryName'), '/CurrencyDelimitedText')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
+				"linkedServiceName": {
+					"referenceName": "trainingdatalakehouse108",
+					"type": "LinkedServiceReference"
+				},
 				"annotations": [],
-				"type": "AzureSqlDatabase",
+				"type": "DelimitedText",
 				"typeProperties": {
-					"connectionString": "[parameters('AzureAdventureWorks_connectionString')]"
-				}
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"folderPath": {
+							"value": "currency/@{item().Currency}/@{formatDateTime(utcnow(),'yyyy')}/@{formatDateTime(utcnow(),'MM')}/@{formatDateTime(utcnow(),'dd')}/@{formatDateTime(utcnow(),'HH')} ",
+							"type": "Expression"
+						},
+						"fileSystem": "bronze"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"quoteChar": "\""
+				},
+				"schema": []
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/trainingdatalakehouse108')]"
+			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/Adventureworks108')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"name": "[concat(parameters('factoryName'), '/DelimitedTextProducts')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
+				"linkedServiceName": {
+					"referenceName": "trainingdatalakehouse108",
+					"type": "LinkedServiceReference"
+				},
 				"annotations": [],
-				"type": "AzureSqlDatabase",
+				"type": "DelimitedText",
 				"typeProperties": {
-					"connectionString": "[parameters('Adventureworks108_connectionString')]"
-				}
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileSystem": "bronze"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "1",
+						"type": "String"
+					},
+					{
+						"name": "Watch",
+						"type": "String"
+					},
+					{
+						"name": "Wearables",
+						"type": "String"
+					},
+					{
+						"name": "2022-04-11 18:05:29.2970000",
+						"type": "String"
+					}
+				]
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/trainingdatalakehouse108')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/GeoDelimitedSync')]",
@@ -199,21 +273,45 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/salesdbds')]",
+			"name": "[concat(parameters('factoryName'), '/Json1')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "salesdb",
+					"referenceName": "websitetrackinglogs",
 					"type": "LinkedServiceReference"
 				},
 				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [],
-				"typeProperties": {}
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"container": "ecommercelogs"
+					}
+				},
+				"schema": {
+					"type": "object",
+					"properties": {
+						"time": {
+							"type": "string"
+						},
+						"remote_ip": {
+							"type": "string"
+						},
+						"request": {
+							"type": "string"
+						},
+						"response": {
+							"type": "integer"
+						},
+						"agent": {
+							"type": "string"
+						}
+					}
+				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/salesdb')]"
+				"[concat(variables('factoryId'), '/linkedServices/websitetrackinglogs')]"
 			]
 		},
 		{
@@ -261,6 +359,87 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/customer_tbl')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Adventureworks108",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Adventureworks108')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/import_parquet')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "trainingdatalakehouse108",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Parquet",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileSystem": "bronze"
+					},
+					"compressionCodec": "snappy"
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/trainingdatalakehouse108')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/news')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "trainingdatalakehouse108",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileSystem": "bronze"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/trainingdatalakehouse108')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/rest')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -284,33 +463,21 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/CurrencyDelimitedText')]",
+			"name": "[concat(parameters('factoryName'), '/salesdbds')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "trainingdatalakehouse108",
+					"referenceName": "salesdb",
 					"type": "LinkedServiceReference"
 				},
 				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"folderPath": {
-							"value": "currency/@{item().Currency}/@{formatDateTime(utcnow(),'yyyy')}/@{formatDateTime(utcnow(),'MM')}/@{formatDateTime(utcnow(),'dd')}/@{formatDateTime(utcnow(),'HH')} ",
-							"type": "Expression"
-						},
-						"fileSystem": "bronze"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"quoteChar": "\""
-				},
-				"schema": []
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/trainingdatalakehouse108')]"
+				"[concat(variables('factoryId'), '/linkedServices/salesdb')]"
 			]
 		},
 		{
@@ -341,72 +508,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/Json1')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "websitetrackinglogs",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "Json",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"container": "ecommercelogs"
-					}
-				},
-				"schema": {
-					"type": "object",
-					"properties": {
-						"time": {
-							"type": "string"
-						},
-						"remote_ip": {
-							"type": "string"
-						},
-						"request": {
-							"type": "string"
-						},
-						"response": {
-							"type": "integer"
-						},
-						"agent": {
-							"type": "string"
-						}
-					}
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/websitetrackinglogs')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/import_parquet')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "trainingdatalakehouse108",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "Parquet",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileSystem": "bronze"
-					},
-					"compressionCodec": "snappy"
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/trainingdatalakehouse108')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/watermark')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -425,512 +526,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/Adventureworks108')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/customer_tbl')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Adventureworks108",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [],
-				"typeProperties": {}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/Adventureworks108')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/tst')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "salesdbds",
-								"type": "DatasetReference"
-							},
-							"name": "salesdb"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "import_parquet",
-								"type": "DatasetReference"
-							},
-							"name": "datalake"
-						}
-					],
-					"transformations": [
-						{
-							"name": "select1"
-						}
-					],
-					"scriptLines": [
-						"source(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     isolationLevel: 'REPEATABLE_READ',",
-						"     query: 'select * from dbo.products',",
-						"     format: 'query') ~> salesdb",
-						"salesdb select(skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> select1",
-						"select1 sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     format: 'parquet',",
-						"     umask: 0022,",
-						"     preCommands: [],",
-						"     postCommands: [],",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> datalake"
-					]
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/salesdbds')]",
-				"[concat(variables('factoryId'), '/datasets/import_parquet')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/bens_batch_ingestion_pipeline')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "\n\n",
-				"activities": [
-					{
-						"name": "Get Secret",
-						"type": "WebActivity",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"url": "https://trainingkv108.vault.azure.net/secrets/CURRAPIKEY/860317e2fef34510b3eaaf57985220ad?api-version=7.0",
-							"method": "GET",
-							"headers": {},
-							"authentication": {
-								"type": "MSI",
-								"resource": "https://vault.azure.net"
-							}
-						}
-					},
-					{
-						"name": "Get Geo-location Mapping",
-						"type": "Copy",
-						"dependsOn": [
-							{
-								"activity": "Get Secret",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "DelimitedTextSource",
-								"storeSettings": {
-									"type": "HttpReadSettings",
-									"requestMethod": "GET"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextReadSettings"
-								}
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobFSWriteSettings"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSettings",
-									"quoteAllText": true,
-									"fileExtension": ".txt"
-								}
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "GeoDelimitedText",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "GeoDelimitedSync",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "Find SalesDB Tables",
-						"type": "Lookup",
-						"dependsOn": [
-							{
-								"activity": "Get Geo-location Mapping",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"sqlReaderQuery": "SELECT QUOTENAME(table_schema)+'.'+QUOTENAME(table_name) AS Table_Name FROM information_Schema.tables WHERE table_name not in ('watermarktable', 'database_firewall_rules',\t\n'ipv6_database_firewall_rules')",
-								"queryTimeout": "02:00:00",
-								"partitionOption": "None"
-							},
-							"dataset": {
-								"referenceName": "salesdbds",
-								"type": "DatasetReference",
-								"parameters": {}
-							},
-							"firstRowOnly": false
-						}
-					},
-					{
-						"name": "ForEach Table",
-						"type": "ForEach",
-						"dependsOn": [
-							{
-								"activity": "Find SalesDB Tables",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"userProperties": [],
-						"typeProperties": {
-							"items": {
-								"value": "@activity('Find SalesDB Tables').output.value",
-								"type": "Expression"
-							},
-							"activities": [
-								{
-									"name": "Lookup Old Watermark",
-									"type": "Lookup",
-									"dependsOn": [],
-									"policy": {
-										"timeout": "7.00:00:00",
-										"retry": 0,
-										"retryIntervalInSeconds": 30,
-										"secureOutput": false,
-										"secureInput": false
-									},
-									"userProperties": [],
-									"typeProperties": {
-										"source": {
-											"type": "AzureSqlSource",
-											"sqlReaderQuery": {
-												"value": "SELECT * FROM [dbo].[watermarktable] AS WatermarkValue WHERE table_name='@{item().Table_Name}'",
-												"type": "Expression"
-											},
-											"queryTimeout": "02:00:00",
-											"partitionOption": "None"
-										},
-										"dataset": {
-											"referenceName": "salesdbds",
-											"type": "DatasetReference",
-											"parameters": {}
-										}
-									}
-								},
-								{
-									"name": "Lookup new Watermark",
-									"type": "Lookup",
-									"dependsOn": [],
-									"policy": {
-										"timeout": "7.00:00:00",
-										"retry": 0,
-										"retryIntervalInSeconds": 30,
-										"secureOutput": false,
-										"secureInput": false
-									},
-									"userProperties": [],
-									"typeProperties": {
-										"source": {
-											"type": "AzureSqlSource",
-											"sqlReaderQuery": {
-												"value": "SELECT MAX(updated_at) as NewWatermarkvalue FROM @{item().Table_Name}",
-												"type": "Expression"
-											},
-											"queryTimeout": "02:00:00",
-											"partitionOption": "None"
-										},
-										"dataset": {
-											"referenceName": "salesdbds",
-											"type": "DatasetReference",
-											"parameters": {}
-										}
-									}
-								},
-								{
-									"name": "Copy table data",
-									"type": "Copy",
-									"dependsOn": [
-										{
-											"activity": "Lookup Old Watermark",
-											"dependencyConditions": [
-												"Succeeded"
-											]
-										},
-										{
-											"activity": "Lookup new Watermark",
-											"dependencyConditions": [
-												"Succeeded"
-											]
-										}
-									],
-									"policy": {
-										"timeout": "7.00:00:00",
-										"retry": 0,
-										"retryIntervalInSeconds": 30,
-										"secureOutput": false,
-										"secureInput": false
-									},
-									"userProperties": [],
-									"typeProperties": {
-										"source": {
-											"type": "AzureSqlSource",
-											"sqlReaderQuery": {
-												"value": "SELECT * FROM @{item().Table_Name} WHERE updated_at > '@{activity('Lookup Old Watermark').output.firstRow.watermark_value}'",
-												"type": "Expression"
-											},
-											"queryTimeout": "02:00:00",
-											"partitionOption": "None"
-										},
-										"sink": {
-											"type": "DelimitedTextSink",
-											"storeSettings": {
-												"type": "AzureBlobFSWriteSettings"
-											},
-											"formatSettings": {
-												"type": "DelimitedTextWriteSettings",
-												"quoteAllText": true,
-												"fileExtension": ".txt"
-											}
-										},
-										"enableStaging": false,
-										"translator": {
-											"type": "TabularTranslator",
-											"typeConversion": true,
-											"typeConversionSettings": {
-												"allowDataTruncation": true,
-												"treatBooleanAsNumber": false
-											}
-										}
-									},
-									"inputs": [
-										{
-											"referenceName": "salesdbds",
-											"type": "DatasetReference",
-											"parameters": {}
-										}
-									],
-									"outputs": [
-										{
-											"referenceName": "SalesDelimitedText",
-											"type": "DatasetReference",
-											"parameters": {
-												"FileExt": "csv",
-												"FileTIme": "@pipeline().TriggerTime"
-											}
-										}
-									]
-								},
-								{
-									"name": "Update watermark",
-									"type": "SqlServerStoredProcedure",
-									"dependsOn": [
-										{
-											"activity": "Copy table data",
-											"dependencyConditions": [
-												"Succeeded"
-											]
-										}
-									],
-									"policy": {
-										"timeout": "7.00:00:00",
-										"retry": 0,
-										"retryIntervalInSeconds": 30,
-										"secureOutput": false,
-										"secureInput": false
-									},
-									"userProperties": [],
-									"typeProperties": {
-										"storedProcedureName": "[[dbo].[usp_write_watermark]",
-										"storedProcedureParameters": {
-											"LastModifiedtime": {
-												"value": {
-													"value": "@{activity('Lookup New Watermark').output.firstRow.NewWatermarkvalue}",
-													"type": "Expression"
-												},
-												"type": "Datetime"
-											},
-											"TableName": {
-												"value": {
-													"value": "@{activity('Lookup Old Watermark').output.firstRow.table_name}",
-													"type": "Expression"
-												},
-												"type": "String"
-											}
-										}
-									},
-									"linkedServiceName": {
-										"referenceName": "salesdb",
-										"type": "LinkedServiceReference"
-									}
-								}
-							]
-						}
-					},
-					{
-						"name": "Copy Website Tracking Data",
-						"type": "Copy",
-						"dependsOn": [
-							{
-								"activity": "ForEach Table",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "JsonSource",
-								"storeSettings": {
-									"type": "AzureBlobStorageReadSettings",
-									"recursive": true,
-									"enablePartitionDiscovery": false,
-									"prefix": "electroniz_access"
-								},
-								"formatSettings": {
-									"type": "JsonReadSettings"
-								}
-							},
-							"sink": {
-								"type": "JsonSink",
-								"storeSettings": {
-									"type": "AzureBlobFSWriteSettings"
-								},
-								"formatSettings": {
-									"type": "JsonWriteSettings"
-								}
-							},
-							"enableStaging": false
-						},
-						"inputs": [
-							{
-								"referenceName": "Json1",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "trackingJSONsync",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "delete trackinglogs",
-						"type": "Delete",
-						"dependsOn": [
-							{
-								"activity": "Copy Website Tracking Data",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataset": {
-								"referenceName": "Json1",
-								"type": "DatasetReference",
-								"parameters": {}
-							},
-							"enableLogging": false,
-							"storeSettings": {
-								"type": "AzureBlobStorageReadSettings",
-								"recursive": true,
-								"enablePartitionDiscovery": false
-							}
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"annotations": [],
-				"lastPublishTime": "2022-04-10T15:30:54Z"
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/GeoDelimitedText')]",
-				"[concat(variables('factoryId'), '/datasets/GeoDelimitedSync')]",
-				"[concat(variables('factoryId'), '/datasets/salesdbds')]",
-				"[concat(variables('factoryId'), '/datasets/Json1')]",
-				"[concat(variables('factoryId'), '/datasets/trackingJSONsync')]",
-				"[concat(variables('factoryId'), '/datasets/SalesDelimitedText')]",
-				"[concat(variables('factoryId'), '/linkedServices/salesdb')]"
 			]
 		}
 	]
