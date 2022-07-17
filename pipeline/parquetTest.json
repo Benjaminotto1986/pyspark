@@ -47,7 +47,11 @@
 				"userProperties": [],
 				"typeProperties": {
 					"url": "https://trainingkv108.vault.azure.net/secrets/ADLSKEY/7f9e694fcde84e3aa79e3aa7bf03758e?api-version=7.0",
-					"method": "GET"
+					"method": "GET",
+					"authentication": {
+						"type": "MSI",
+						"resource": "https://vault.azure.net"
+					}
 				}
 			}
 		],
