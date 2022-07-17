@@ -25,6 +25,23 @@
 					},
 					"traceLevel": "Fine"
 				}
+			},
+			{
+				"name": "get secret",
+				"type": "WebActivity",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"url": "https://trainingkv108.vault.azure.net/secrets/ADLSKEY/7f9e694fcde84e3aa79e3aa7bf03758e?api-version=7.0",
+					"method": "GET"
+				}
 			}
 		],
 		"annotations": []
