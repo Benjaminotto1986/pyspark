@@ -23,7 +23,7 @@
 			],
 			"transformations": [
 				{
-					"name": "filter1"
+					"name": "select1"
 				}
 			],
 			"scriptLines": [
@@ -32,8 +32,9 @@
 				"     isolationLevel: 'REPEATABLE_READ',",
 				"     query: 'select * from dbo.products',",
 				"     format: 'query') ~> salesdb",
-				"salesdb filter(ERROR_FUNCTION('__NEW_LINE_N__product_category = __SINGLE_QUOTE__Wearables__SINGLE_QUOTE__')) ~> filter1",
-				"filter1 sink(allowSchemaDrift: true,",
+				"salesdb select(skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"select1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     format: 'parquet',",
 				"     umask: 0022,",
