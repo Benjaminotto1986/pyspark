@@ -1,0 +1,47 @@
+{
+	"name": "tst",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "salesdbds",
+						"type": "DatasetReference"
+					},
+					"name": "salesdb"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "import_parquet",
+						"type": "DatasetReference"
+					},
+					"name": "datalake"
+				}
+			],
+			"transformations": [
+				{
+					"name": "filter1"
+				}
+			],
+			"scriptLines": [
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'REPEATABLE_READ',",
+				"     query: 'select * from dbo.products',",
+				"     format: 'query') ~> salesdb",
+				"salesdb filter(ERROR_FUNCTION('__NEW_LINE_N__product_category = __SINGLE_QUOTE__Wearables__SINGLE_QUOTE__')) ~> filter1",
+				"filter1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'parquet',",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> datalake"
+			]
+		}
+	}
+}
