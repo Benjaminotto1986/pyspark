@@ -1,0 +1,48 @@
+{
+	"name": "tst",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "salesdbds",
+						"type": "DatasetReference"
+					},
+					"name": "salesdb"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "import_parquet",
+						"type": "DatasetReference"
+					},
+					"name": "datalake"
+				}
+			],
+			"transformations": [
+				{
+					"name": "select1"
+				}
+			],
+			"scriptLines": [
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'REPEATABLE_READ',",
+				"     query: 'select * from dbo.products',",
+				"     format: 'query') ~> salesdb",
+				"salesdb select(skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"select1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'parquet',",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> datalake"
+			]
+		}
+	}
+}
