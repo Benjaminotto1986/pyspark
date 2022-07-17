@@ -1,0 +1,118 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory-Name",
+			"defaultValue": "df107"
+		},
+		"Adventureworks108_connectionString": {
+			"type": "secureString",
+			"metadata": "Sichere Zeichenfolge für \"connectionString\" von \"Adventureworks108\""
+		},
+		"AzureAdventureWorks_connectionString": {
+			"type": "secureString",
+			"metadata": "Sichere Zeichenfolge für \"connectionString\" von \"AzureAdventureWorks\""
+		},
+		"salesdb_connectionString": {
+			"type": "secureString",
+			"metadata": "Sichere Zeichenfolge für \"connectionString\" von \"salesdb\""
+		},
+		"trainingdatalakehouse108_accountKey": {
+			"type": "secureString",
+			"metadata": "Sichere Zeichenfolge für \"accountKey\" von \"trainingdatalakehouse108\""
+		},
+		"websitetrackinglogs_connectionString": {
+			"type": "secureString",
+			"metadata": "Sichere Zeichenfolge für \"connectionString\" von \"websitetrackinglogs\""
+		},
+		"httpSource_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://raw.githubusercontent.com/PacktPublishing/Data-Engineering-with-Apache-Spark-Delta-Lake-and-Lakehouse/main/project/prep/iplocation/IP2LOCATION-LITE-DB1.CSV  "
+		},
+		"restsource_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://free.currconv.com/api/v7/convert? "
+		},
+		"trainingdatalakehouse108_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://traininglakehouse108.dfs.core.windows.net"
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI für Speicherkonto mit verknüpften ARM-Vorlagen"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "SAS-Token für Speicherkonto mit verknüpften ARM-Vorlagen"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "df107_ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"Adventureworks108_connectionString": {
+						"value": "[parameters('Adventureworks108_connectionString')]"
+					},
+					"AzureAdventureWorks_connectionString": {
+						"value": "[parameters('AzureAdventureWorks_connectionString')]"
+					},
+					"salesdb_connectionString": {
+						"value": "[parameters('salesdb_connectionString')]"
+					},
+					"trainingdatalakehouse108_accountKey": {
+						"value": "[parameters('trainingdatalakehouse108_accountKey')]"
+					},
+					"websitetrackinglogs_connectionString": {
+						"value": "[parameters('websitetrackinglogs_connectionString')]"
+					},
+					"httpSource_properties_typeProperties_url": {
+						"value": "[parameters('httpSource_properties_typeProperties_url')]"
+					},
+					"restsource_properties_typeProperties_url": {
+						"value": "[parameters('restsource_properties_typeProperties_url')]"
+					},
+					"trainingdatalakehouse108_properties_typeProperties_url": {
+						"value": "[parameters('trainingdatalakehouse108_properties_typeProperties_url')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "df107_ArmTemplate_1",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_1.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'df107_ArmTemplate_0')]"
+			]
+		}
+	]
+}
