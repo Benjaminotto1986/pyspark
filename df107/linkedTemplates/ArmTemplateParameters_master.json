@@ -5,29 +5,29 @@
 		"factoryName": {
 			"value": "df107"
 		},
-		"Adventureworks108_connectionString": {
-			"value": ""
-		},
-		"AzureAdventureWorks_connectionString": {
+		"trainingdatalakehouse108_accountKey": {
 			"value": ""
 		},
 		"salesdb_connectionString": {
 			"value": ""
 		},
-		"trainingdatalakehouse108_accountKey": {
-			"value": ""
-		},
 		"websitetrackinglogs_connectionString": {
 			"value": ""
+		},
+		"AzureAdventureWorks_connectionString": {
+			"value": ""
+		},
+		"Adventureworks108_connectionString": {
+			"value": ""
+		},
+		"trainingdatalakehouse108_properties_typeProperties_url": {
+			"value": "https://traininglakehouse108.dfs.core.windows.net"
 		},
 		"httpSource_properties_typeProperties_url": {
 			"value": "https://raw.githubusercontent.com/PacktPublishing/Data-Engineering-with-Apache-Spark-Delta-Lake-and-Lakehouse/main/project/prep/iplocation/IP2LOCATION-LITE-DB1.CSV  "
 		},
 		"restsource_properties_typeProperties_url": {
 			"value": "https://free.currconv.com/api/v7/convert? "
-		},
-		"trainingdatalakehouse108_properties_typeProperties_url": {
-			"value": "https://traininglakehouse108.dfs.core.windows.net"
 		},
 		"containerUri": {
 			"value": ""
