@@ -15,33 +15,37 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "import_parquet",
+						"referenceName": "DelimitedTextProducts",
 						"type": "DatasetReference"
 					},
-					"name": "datalake"
+					"name": "datalake",
+					"rejectedDataLinkedService": {
+						"referenceName": "trainingdatalakehouse108",
+						"type": "LinkedServiceReference"
+					}
 				}
 			],
-			"transformations": [
-				{
-					"name": "select1"
-				}
-			],
+			"transformations": [],
 			"scriptLines": [
 				"source(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'REPEATABLE_READ',",
-				"     query: 'select * from dbo.products',",
+				"     query: 'select * from dbo.products where product_name = \\'Watch\\'\\n',",
 				"     format: 'query') ~> salesdb",
-				"salesdb select(skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select1",
-				"select1 sink(allowSchemaDrift: true,",
+				"salesdb sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     format: 'parquet',",
+				"     input(",
+				"          {1} as string,",
+				"          Watch as string,",
+				"          Wearables as string,",
+				"          {2022-04-11 18:05:29.2970000} as string",
+				"     ),",
 				"     umask: 0022,",
 				"     preCommands: [],",
 				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> datalake"
+				"     skipDuplicateMapOutputs: true,",
+				"     format: 'parquet') ~> datalake"
 			]
 		}
 	}

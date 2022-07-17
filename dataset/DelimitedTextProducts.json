@@ -1,0 +1,39 @@
+{
+	"name": "DelimitedTextProducts",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "trainingdatalakehouse108",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileSystem": "bronze"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "1",
+				"type": "String"
+			},
+			{
+				"name": "Watch",
+				"type": "String"
+			},
+			{
+				"name": "Wearables",
+				"type": "String"
+			},
+			{
+				"name": "2022-04-11 18:05:29.2970000",
+				"type": "String"
+			}
+		]
+	}
+}
