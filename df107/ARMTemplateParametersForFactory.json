@@ -27,7 +27,7 @@
 			"value": "https://free.currconv.com/api/v7/convert? "
 		},
 		"trainingdatalakehouse108_properties_typeProperties_url": {
-			"value": "https://traininglakehouse108.dfs.core.windows.net"
+			"value": "https://traininglakehouse108.dfs.core.windows.net/"
 		}
 	}
 }

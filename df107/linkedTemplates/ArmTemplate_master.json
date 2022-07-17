@@ -37,7 +37,7 @@
 		},
 		"trainingdatalakehouse108_properties_typeProperties_url": {
 			"type": "string",
-			"defaultValue": "https://traininglakehouse108.dfs.core.windows.net"
+			"defaultValue": "https://traininglakehouse108.dfs.core.windows.net/"
 		},
 		"containerUri": {
 			"type": "string",
