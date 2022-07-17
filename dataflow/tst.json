@@ -18,7 +18,7 @@
 						"referenceName": "DelimitedTextProducts",
 						"type": "DatasetReference"
 					},
-					"name": "datalake",
+					"name": "sink1",
 					"rejectedDataLinkedService": {
 						"referenceName": "trainingdatalakehouse108",
 						"type": "LinkedServiceReference"
@@ -40,12 +40,13 @@
 				"          Wearables as string,",
 				"          {2022-04-11 18:05:29.2970000} as string",
 				"     ),",
+				"     truncate: true,",
 				"     umask: 0022,",
 				"     preCommands: [],",
 				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     format: 'parquet') ~> datalake"
+				"     quoteAll: true) ~> sink1"
 			]
 		}
 	}
